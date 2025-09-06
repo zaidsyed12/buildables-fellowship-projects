@@ -1,9 +1,0 @@
-Difference between OLTP and OLAP Modeling:
-When we talk about OLTP (Online Transaction Processing), we are referring to systems that handle a lot of daily transactional data, like order entries or customer updates. These systems are built for speed with lots of inserts, updates, and deletes, and they use normalized schemas to avoid redundancy. On the other hand, OLAP (Online Analytical Processing) is all about analyzing historical data and generating reports. These systems use denormalized schemas to make data retrieval faster, especially for complex queries, like calculating total revenue per product category.
-
-Importance of Surrogate Keys in Dimensions:
-Surrogate keys are essentially a database’s way of assigning unique IDs that don’t have any business meaning. They are super important when we have data that might change over time. For example, if a customer changes their email address, we don't want to overwrite the old record. We can keep the old data for historical purposes and just add a new record with a new surrogate key, as we do in SCD Type-2. This ensures we don't lose any data, and we can track the customer’s changes over time.
-
-What I Learned About Slowly Changing Dimensions:
-SCD are a way to track changes in data over time without losing historical context. For example, if a customer updates their email SCD Type-2 ensures that we don’t overwrite the old record instead, we mark the old one as inactive with an end_date, and insert a new record with a new surrogate key. This helps maintain a full history of changes, which is crucial when analyzing trends over time, like in the dim_customers update and insert queries. It’s a clean way to manage data changes while keeping everything in order.
-
