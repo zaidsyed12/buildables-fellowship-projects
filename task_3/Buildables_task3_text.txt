@@ -1,0 +1,7 @@
+Why did we use a row hash?
+
+Used a row hash because it makes change detection simple and reliable, instead of checking columns one by one. I build a consistent string from those fields, hash it with md5, and then just compare the old hash to the new one to see if anything changed. This keeps the SCD logic short and easy to maintain, even scales nicely when we add more attributes, and is usually faster than a big chain of column comparisons.
+
+What if you had a column lastUpdateDate in both staging and main tables, would you still have calculated row hash ?
+
+I would still compute a row hash because lastUpdateDate tells when the source says a row was touched, not whether any business attributes actually changed. Hence, lastUpdateDate to limit what I scan in this load window, and use the hash to confirm real content changes before creating a new SCD-2 version. I would skip the hash only if the source can strictly guarantee the timestamp changes only and always when attributes change, which is rare bcz on overwrite also it updates the lastUpdateDate.
